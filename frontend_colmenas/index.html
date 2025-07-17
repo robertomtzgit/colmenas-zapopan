@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="container-form">
+            <form class="sign-in" id="sign-in">
+                <h2>Iniciar Sesión</h2>
+                <div class="social-networks">
+                    <ion-icon name="logo-twitch"></ion-icon>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-instagram"></ion-icon>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+                <span>Use su correo y contraseña</span>
+                <div class="container-input">
+                    <ion-icon name="mail"></ion-icon>
+                    <input type="text" placeholder="Email" id="loginEmail">
+                </div>
+                <div class="container-input">
+                    <ion-icon name="lock"></ion-icon>
+                    <input type="password" placeholder="Password" id="loginPassword">
+                </div>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <button type="submit" class="button">Iniciar Sesión</button>
+                            <!-- Cuentas de prueba -->
+                <div class="test-accounts">
+                    <p>Cuentas de prueba:</p>
+                    <small>Promotor: promotor@comunidad.com / 123456</small>
+                    <small>Usuario: usuario@comunidad.com / 123456</small>
+                </div>
+            </form>
+        </div>
+        <div class="container-form">
+                <form class="sign-up" id="sign-up">
+                    <h2>Registrarse</h2>
+                    <div class="social-networks">
+                        <ion-icon name="logo-twitch"></ion-icon>
+                        <ion-icon name="logo-twitter"></ion-icon>
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <ion-icon name="logo-facebook"></ion-icon>
+                    </div>
+                    <span>Use su correo electronico para registrarse</span>
+                    <div class="container-input">
+                        <ion-icon name="person"></ion-icon>
+                        <input type="text" placeholder="Nombre" id="registerName">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="mail"></ion-icon>
+                        <input type="text" placeholder="Email" id="registerEmail">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="lock"></ion-icon>
+                        <input type="password" placeholder="Password" id="registerPassword">
+                    </div>
+                    <div class="container-input">
+                        <ion-icon name="calendar-number"></ion-icon>
+                        <input type="number" placeholder="Edad" id="registerEdad">
+                        </div>
+                        <div class="container-input">
+                        <ion-icon name="transgender-outline"></ion-icon>
+                        <select id="registerSexo">
+                            <option value="">Sexo</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                        </div>
+                        <div class="container-input">
+                            <ion-icon name="home"></ion-icon>
+                            <input type="text" placeholder="Domicilio" id="registerDomicilio">
+                        </div>
+                        <div class="container-input">
+                            <ion-icon name="call"></ion-icon>
+                            <input type="tel" placeholder="Teléfono" id="registerTelefono">
+                        </div>
+                    <button type="submit" class="button">Registrarse</button>
+                </form>
+            </div>
+            <div class="container-welcome">
+                <div class="welcome-sign-up welcome">
+                    <h3>¡Bienvenido!</h3>
+                    <p>Únete a nuestra plataforma comunitaria y participa en actividades locales</p>
+                    <button class="button" id="btn-sign-up">Registrarse</button>
+                </div>
+                <div class="welcome-sign-in welcome">
+                    <h3>¡Hola de nuevo!</h3>
+                    <p>Inicia sesión para acceder a tu colmena y gestionar actividades comunitarias</p>
+                    <button class="button" id="btn-sign-in">Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="api.js"></script>
+        <script src="script.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    </body>
+</html>

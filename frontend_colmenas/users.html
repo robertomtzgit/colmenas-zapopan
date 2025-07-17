@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - Plataforma Comunitaria</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <link rel="stylesheet" href="users-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-info">
+                <h1>Gestión de Usuarios</h1>
+                <p id="welcomeMessage">Bienvenido, <span id="userNameDisplay"></span></p>
+            </div>
+            <div class="user-info">
+                <span id="userTypeDisplay" class="user-badge"></span>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="section-header">
+            <h2>Listado de Usuarios</h2>
+            <p>Administra los usuarios registrados en la plataforma.</p>
+        </div>
+
+        <!-- Filtros y Búsqueda -->
+        <div class="filters-section">
+            <input type="text" id="searchUserInput" placeholder="Buscar por nombre o email..." class="filter-input">
+            <select id="filterStatus" class="filter-select">
+                <option value="">Todos los Estatus</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+                <option value="suspendido">Suspendido</option>
+            </select>
+            <select id="filterRole" class="filter-select">
+                <option value="">Todos los Roles</option>
+                <!-- Roles se cargarán dinámicamente aquí -->
+            </select>
+            <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
+            <button class="btn btn-outline" onclick="resetFilters()">Limpiar Filtros</button>
+        </div>
+
+        <!-- Tabla de Usuarios -->
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estatus</th>
+                        <th>Edad</th>
+                        <th>Sexo</th>
+                        <th>Teléfono</th>
+                        <th>Último Login</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Datos de usuarios se cargarán aquí dinámicamente -->
+                    <tr><td colspan="10" class="loading-message">Cargando usuarios...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationControls" class="pagination-controls">
+            <!-- Controles de paginación aquí -->
+        </div>
+    </div>
+
+    <!-- Modal para Editar Usuario -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeEditUserModal()">&times;</span>
+            <h2>Editar Usuario</h2>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <div class="form-group">
+                    <label for="editUserName">Nombre:</label>
+                    <input type="text" id="editUserName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserEmail">Email:</label>
+                    <input type="email" id="editUserEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserPassword">Contraseña (dejar vacío para no cambiar):</label>
+                    <input type="password" id="editUserPassword">
+                </div>
+                <div class="form-group">
+                    <label for="editUserEdad">Edad:</label>
+                    <input type="number" id="editUserEdad" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="editUserSexo">Sexo:</label>
+                    <select id="editUserSexo">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editUserDomicilio">Domicilio:</label>
+                    <input type="text" id="editUserDomicilio">
+                </div>
+                <div class="form-group">
+                    <label for="editUserTelefono">Teléfono:</label>
+                    <input type="tel" id="editUserTelefono">
+                </div>
+                <div class="form-group">
+                    <label for="editUserEstatus">Estatus:</label>
+                    <select id="editUserEstatus">
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                        <option value="suspendido">Suspendido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editUserRol">Rol:</label>
+                    <select id="editUserRol" required>
+                        <!-- Roles se cargarán dinámicamente aquí -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-outline" onclick="closeEditUserModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="users-script.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</body>
+</html>

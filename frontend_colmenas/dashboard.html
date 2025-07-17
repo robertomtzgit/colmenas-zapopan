@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Plataforma Comunitaria</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-info">
+                <h1>Dashboard Comunitario</h1>
+                <p id="welcomeMessage">Bienvenido, Usuario</p>
+            </div>
+            <div class="user-info">
+                <span id="userTypeDisplay" class="user-badge">Usuario</span>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3>Total Usuarios</h3>
+                    <div class="stat-number" id="totalUsuarios">Cargando...</div>
+                    <div class="stat-change"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3>Actividades Activas</h3>
+                    <div class="stat-number" id="actividadesActivas">Cargando...</div>
+                    <div class="stat-change"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-content">
+                    <h3>Mis Inscripciones</h3>
+                    <div class="stat-number" id="misInscripciones">Cargando...</div>
+                    <div class="stat-change"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔔</div>
+                <div class="stat-content">
+                    <h3>Notificaciones No Leídas</h3>
+                    <div class="stat-number" id="notificacionesNoLeidas">Cargando...</div>
+                    <div class="stat-change"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons (solo para promotores) -->
+        <div class="actions" id="promotorActions" style="display: none;">
+            <button class="btn btn-primary" onclick="openNewActivityModal()">
+                <span class="btn-icon">➕</span>
+                Nueva Actividad
+            </button>
+            <button class="btn btn-outline" onclick="openReportsPage()">
+                <span class="btn-icon">📊</span>
+                Ver Reportes
+            </button>
+            <button class="btn btn-outline" onclick="openUsersPage()">
+                <span class="btn-icon">👤</span>
+                Gestionar Usuarios
+            </button>
+            <button class="btn btn-outline" onclick="openColmenasPage()">
+                <span class="btn-icon">🏠</span>
+                Gestionar Colmenas
+            </button>
+        </div>
+
+        <!-- Activities Section -->
+        <div class="activities-section">
+            <div class="section-header">
+                <h2>Actividades Recientes</h2>
+                <p id="sectionDescription">Actividades disponibles en tu comunidad</p>
+            </div>
+            <div class="activities-list" id="activitiesList">
+                <!-- Actividades se cargarán aquí dinámicamente -->
+                <p id="loadingActivities">Cargando actividades...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Detalles de Actividad -->
+    <div id="activityDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeActivityDetailModal()">&times;</span>
+            <h2 id="modalActivityTitle"></h2>
+            <p id="modalActivityDescription"></p>
+            <div class="activity-details">
+                <div class="detail-item"><span class="detail-icon">📅</span> <span id="modalActivityDate"></span></div>
+                <div class="detail-item"><span class="detail-icon">🕐</span> <span id="modalActivityTime"></span></div>
+                <div class="detail-item"><span class="detail-icon">📍</span> <span id="modalActivityLocation"></span></div>
+                <div class="detail-item"><span class="detail-icon">👥</span> <span id="modalActivityCapacity"></span></div>
+                <div class="detail-item"><span class="detail-icon">🏠</span> Colmena: <span id="modalActivityColmena"></span></div>
+                <div class="detail-item"><span class="detail-icon">🏷️</span> Categoría: <span id="modalActivityCategory"></span></div>
+                <div class="detail-item"><span class="detail-icon">✍️</span> Creado por: <span id="modalActivityCreator"></span></div>
+            </div>
+            <div class="modal-actions">
+                <!-- Botones dinámicos aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="dashboard-script.js"></script>
+</body>
+</html>
