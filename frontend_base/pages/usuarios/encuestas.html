@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuestas - Sistema Colmenas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../../css/user-styles.css" rel="stylesheet">
+    <style>
+        .survey-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e4e6ea;
+            transition: all 0.3s ease;
+        }
+
+        .survey-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .survey-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .survey-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1c1e21;
+            margin: 0 0 8px 0;
+        }
+
+        .survey-description {
+            color: #65676b;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .survey-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #65676b;
+        }
+
+        .meta-item i {
+            color: #1877f2;
+            width: 16px;
+        }
+
+        .survey-progress {
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            background: #e4e6ea;
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #42b883;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .survey-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-badge.completed {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-badge.expired {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .question-container {
+            margin-bottom: 24px;
+        }
+
+        .question-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1c1e21;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-required {
+            color: #f44336;
+            font-size: 14px;
+        }
+
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background: #e9ecef;
+        }
+
+        .option-item input {
+            margin: 0;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e4e6ea;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #1877f2;
+        }
+
+        .scale-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            max-width: 400px;
+        }
+
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .scale-option input {
+            margin: 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e4e6ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e4e6ea;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .close {
+            color: #65676b;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: #1c1e21;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #bdc3c7;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px 0;
+            color: #1c1e21;
+        }
+
+        @media (max-width: 768px) {
+            .survey-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .survey-actions {
+                flex-direction: column;
+            }
+            
+            .scale-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-poll"></i> Encuestas</h1>
+                    <p>Participa en las encuestas de tu colmena</p>
+                </div>
+                <div class="user-menu">
+                    <img src="/placeholder.svg" alt="Usuario" class="user-avatar" id="userAvatar">
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="feed.html"><i class="fas fa-home"></i> Inicio</a>
+                        <a href="actividades.html"><i class="fas fa-calendar"></i> Actividades</a>
+                        <a href="reportes.html"><i class="fas fa-file-alt"></i> Reportes</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-poll"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalSurveys">0</div>
+                    <div class="stat-label">Total Encuestas</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="completedSurveys">0</div>
+                    <div class="stat-label">Completadas</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="pendingSurveys">0</div>
+                    <div class="stat-label">Pendientes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="searchInput">Buscar encuestas:</label>
+                    <input type="text" id="searchInput" placeholder="Buscar por título o descripción...">
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">Estado:</label>
+                    <select id="statusFilter">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="completada">Completada</option>
+                        <option value="expirada">Expirada</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Surveys Container -->
+        <div id="surveysContainer">
+            <!-- Las encuestas se cargarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Modal para responder encuesta -->
+    <div id="surveyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="surveyModalTitle">Responder Encuesta</h3>
+                <button class="close" onclick="closeSurveyModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="surveyForm">
+                    <div id="questionsContainer">
+                        <!-- Las preguntas se cargarán aquí -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeSurveyModal()">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="submitSurvey()">Enviar Respuestas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver resultados -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="resultsModalTitle">Resultados de la Encuesta</h3>
+                <button class="close" onclick="closeResultsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="resultsContainer">
+                    <!-- Los resultados se cargarán aquí -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="closeResultsModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/user-surveys.js"></script>
+</body>
+</html>

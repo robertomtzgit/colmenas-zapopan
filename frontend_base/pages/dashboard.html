@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema Colmenas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div id="sidebar-container"></div>
+        
+        <div class="main-content">
+            <div id="navbar-container"></div>
+            
+            <div class="content-wrapper p-4">
+                <div class="page-header mb-4">
+                    <h1>Dashboard</h1>
+                    <p>Bienvenido al sistema de gestión de colmenas comunitarias</p>
+                </div>
+
+                <!-- Estadísticas principales -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon users">
+                            <ion-icon name="people"></ion-icon>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-usuarios">0</h3>
+                            <p>Usuarios Registrados</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon colmenas">
+                            <ion-icon name="business"></ion-icon>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-colmenas">0</h3>
+                            <p>Colmenas Activas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon actividades">
+                            <ion-icon name="calendar"></ion-icon>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-actividades">0</h3>
+                            <p>Actividades Programadas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon reportes">
+                            <ion-icon name="flag"></ion-icon>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-reportes">0</h3>
+                            <p>Reportes Pendientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido principal -->
+                <div class="row">
+                    <!-- Actividades recientes -->
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Actividades Recientes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="actividades-recientes">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reportes recientes -->
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Reportes Recientes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="reportes-recientes">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <!-- Notificaciones recientes -->
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Notificaciones Recientes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="notificaciones-recientes">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accesos rápidos -->
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Accesos Rápidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="quick-actions">
+                                    <a href="usuarios.html" class="btn btn-primary mb-2">
+                                        <ion-icon name="people"></ion-icon>
+                                        Gestionar Usuarios
+                                    </a>
+                                    <a href="colmenas.html" class="btn btn-primary mb-2">
+                                        <ion-icon name="business"></ion-icon>
+                                        Gestionar Colmenas
+                                    </a>
+                                    <a href="actividades.html" class="btn btn-primary mb-2">
+                                        <ion-icon name="calendar"></ion-icon>
+                                        Nueva Actividad
+                                    </a>
+                                    <a href="reportes.html" class="btn btn-primary mb-2">
+                                        <ion-icon name="flag"></ion-icon>
+                                        Ver Reportes
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Configurar información del usuario
+        async function setupUserInfo() {
+            const session = getSession()
+            const userNameElement = document.getElementById("user-name")
+            const userAvatarElement = document.getElementById("user-avatar")
+            const userRoleElement = document.getElementById("user-role")
+
+            if (session.userId) {
+                try {
+                    // Obtener datos completos del usuario
+                    const response = await apiFetch(`/usuarios/${session.userId}`)
+                    if (response && response.ok) {
+                        const userData = await response.json()
+                        
+                        if (userNameElement) {
+                            userNameElement.textContent = userData.nombre
+                        }
+                        
+                        if (userAvatarElement) {
+                            userAvatarElement.textContent = userData.nombre.charAt(0).toUpperCase()
+                        }
+                        
+                        // Mostrar rol del usuario
+                        if (userRoleElement) {
+                            userRoleElement.textContent = userData.rol ? userData.rol.nombre : 'Sin rol'
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error)
+                    // Fallback a datos de sesión
+                    if (userNameElement) {
+                        userNameElement.textContent = session.userEmail || 'Usuario'
+                    }
+                    if (userAvatarElement) {
+                        userAvatarElement.textContent = (session.userEmail || 'U').charAt(0).toUpperCase()
+                    }
+                }
+            }
+        }
+        // Dashboard específico
+        class DashboardManager {
+            constructor() {
+                this.init();
+            }
+
+            async init() {
+                await this.loadStats();
+                await this.loadRecentData();
+            }
+
+            async loadStats() {
+                try {
+                    // Cargar estadísticas
+                    const [usuariosRes, colmenasRes, actividadesRes, reportesRes] = await Promise.all([
+                        apiFetch('/usuarios'),
+                        apiFetch('/colmenas'),
+                        apiFetch('/actividades'),
+                        apiFetch('/reportes')
+                    ]);
+
+                    if (usuariosRes && usuariosRes.ok) {
+                        const usuarios = await usuariosRes.json();
+                        document.getElementById('total-usuarios').textContent = usuarios.length;
+                    }
+
+                    if (colmenasRes && colmenasRes.ok) {
+                        const colmenas = await colmenasRes.json();
+                        const colmenasActivas = colmenas.filter(c => c.activa);
+                        document.getElementById('total-colmenas').textContent = colmenasActivas.length;
+                    }
+
+                    if (actividadesRes && actividadesRes.ok) {
+                        const actividades = await actividadesRes.json();
+                        const actividadesActivas = actividades.filter(a => a.activa);
+                        document.getElementById('total-actividades').textContent = actividadesActivas.length;
+                    }
+
+                    if (reportesRes && reportesRes.ok) {
+                        const reportes = await reportesRes.json();
+                        const reportesPendientes = reportes.filter(r => r.estado === 'pendiente');
+                        document.getElementById('total-reportes').textContent = reportesPendientes.length;
+                    }
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+
+            async loadRecentData() {
+                try {
+                    // Cargar actividades recientes
+                    const actividadesRes = await apiFetch('/actividades');
+                    if (actividadesRes && actividadesRes.ok) {
+                        const actividades = await actividadesRes.json();
+                        const recientes = actividades.slice(0, 5);
+                        this.renderActividadesRecientes(recientes);
+                    }
+
+                    // Cargar reportes recientes
+                    const reportesRes = await apiFetch('/reportes');
+                    if (reportesRes && reportesRes.ok) {
+                        const reportes = await reportesRes.json();
+                        const recientes = reportes.slice(0, 5);
+                        this.renderReportesRecientes(recientes);
+                    }
+
+                    // Cargar notificaciones recientes
+                    const session = getSession();
+                    const notificacionesRes = await apiFetch(`/notificaciones/usuario/${session.userId}`);
+                    if (notificacionesRes && notificacionesRes.ok) {
+                        const notificaciones = await notificacionesRes.json();
+                        const recientes = notificaciones.slice(0, 5);
+                        this.renderNotificacionesRecientes(recientes);
+                    }
+                } catch (error) {
+                    console.error('Error loading recent data:', error);
+                }
+            }
+
+            renderActividadesRecientes(actividades) {
+                const container = document.getElementById('actividades-recientes');
+                
+                if (actividades.length === 0) {
+                    container.innerHTML = '<p class="text-center">No hay actividades recientes</p>';
+                    return;
+                }
+
+                container.innerHTML = actividades.map(actividad => `
+                    <div class="recent-item">
+                        <div class="recent-item-header">
+                            <strong>${actividad.titulo}</strong>
+                            <small>${formatDate(actividad.fechaInicio)}</small>
+                        </div>
+                        <p>${truncateText(actividad.descripcion, 80)}</p>
+                        <div class="recent-item-meta">
+                            <span class="badge badge-primary">${actividad.colmena ? actividad.colmena.nombre : 'Sin colmena'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderReportesRecientes(reportes) {
+                const container = document.getElementById('reportes-recientes');
+                
+                if (reportes.length === 0) {
+                    container.innerHTML = '<p class="text-center">No hay reportes recientes</p>';
+                    return;
+                }
+
+                container.innerHTML = reportes.map(reporte => `
+                    <div class="recent-item">
+                        <div class="recent-item-header">
+                            <strong>${reporte.titulo}</strong>
+                            <small>${formatDate(reporte.fechaCreacion)}</small>
+                        </div>
+                        <p>${truncateText(reporte.descripcion, 80)}</p>
+                        <div class="recent-item-meta">
+                            <span class="badge ${this.getEstadoBadgeClass(reporte.estado)}">${reporte.estado}</span>
+                            <span class="badge ${this.getPrioridadBadgeClass(reporte.prioridad)}">${reporte.prioridad}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderNotificacionesRecientes(notificaciones) {
+                const container = document.getElementById('notificaciones-recientes');
+                
+                if (notificaciones.length === 0) {
+                    container.innerHTML = '<p class="text-center">No hay notificaciones recientes</p>';
+                    return;
+                }
+
+                container.innerHTML = notificaciones.map(notificacion => `
+                    <div class="recent-item ${!notificacion.leida ? 'recent-item-unread' : ''}">
+                        <div class="recent-item-header">
+                            <strong>${notificacion.titulo}</strong>
+                            <small>${formatDate(notificacion.fechaCreacion)}</small>
+                        </div>
+                        <p>${truncateText(notificacion.mensaje, 80)}</p>
+                        <div class="recent-item-meta">
+                            <span class="badge badge-info">${notificacion.tipo}</span>
+                            ${!notificacion.leida ? '<span class="badge badge-warning">No leída</span>' : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            getEstadoBadgeClass(estado) {
+                switch (estado) {
+                    case 'pendiente': return 'badge-warning';
+                    case 'en_proceso': return 'badge-info';
+                    case 'resuelto': return 'badge-success';
+                    case 'rechazado': return 'badge-danger';
+                    default: return 'badge-secondary';
+                }
+            }
+
+            getPrioridadBadgeClass(prioridad) {
+                switch (prioridad) {
+                    case 'alta': return 'badge-danger';
+                    case 'media': return 'badge-warning';
+                    case 'baja': return 'badge-success';
+                    default: return 'badge-secondary';
+                }
+            }
+        }
+
+        // Inicializar dashboard
+        let dashboardManager;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboardManager = new DashboardManager();
+        });
+    </script>
+
+    <style>
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .recent-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-item:hover {
+            background: var(--background-color);
+        }
+
+        .recent-item-unread {
+            background: rgba(58, 179, 151, 0.05);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .recent-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .recent-item-meta {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .recent-item p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: var(--background-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            margin-left: 0.5rem;
+        }
+    </style>
+</body>
+</html>

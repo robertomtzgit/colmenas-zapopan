@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuestas - Sistema Colmenas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div id="sidebar-container"></div>
+        
+        <div class="main-content">
+            <div id="navbar-container"></div>
+            
+            <div class="content-wrapper p-4">
+                <div class="page-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestión de Encuestas</h1>
+                            <p>Administra las encuestas del sistema</p>
+                        </div>
+                        <button class="btn btn-primary" id="new-encuesta-btn">
+                            <ion-icon name="add"></ion-icon>
+                            Nueva Encuesta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Buscar</label>
+                                    <input type="text" class="form-control" id="search-encuestas" placeholder="Buscar encuestas...">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-control" id="estado-filter">
+                                        <option value="">Todas</option>
+                                        <option value="activa">Activas</option>
+                                        <option value="inactiva">Inactivas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="form-label">Tipo</label>
+                                    <select class="form-control" id="tipo-filter">
+                                        <option value="">Todas</option>
+                                        <option value="anonima">Anónimas</option>
+                                        <option value="no_anonima">No anónimas</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de encuestas -->
+                <div class="row" id="encuestas-container">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva/Editar Encuesta -->
+    <div class="modal" id="encuesta-modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="encuesta-modal-title">Nueva Encuesta</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <form id="encuesta-form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" id="encuesta-titulo" name="titulo" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="encuesta-activa" name="activa" checked>
+                                    <label class="form-check-label" for="encuesta-activa">Activa</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" id="encuesta-descripcion" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Inicio</label>
+                                <input type="datetime-local" class="form-control" id="encuesta-fechaInicio" name="fechaInicio" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Fecha de Fin</label>
+                                <input type="datetime-local" class="form-control" id="encuesta-fechaFin" name="fechaFin" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="encuesta-anonima" name="anonima">
+                            <label class="form-check-label" for="encuesta-anonima">Encuesta anónima</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Preguntas</h5>
+                            <button type="button" class="btn btn-sm btn-secondary" id="add-pregunta-btn">
+                                <ion-icon name="add"></ion-icon>
+                                Agregar Pregunta
+                            </button>
+                        </div>
+                        <div id="preguntas-container">
+                            <!-- Preguntas dinámicas -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('encuesta-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Encuesta -->
+    <div class="modal" id="encuesta-details-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles de la Encuesta</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="encuesta-details-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('encuesta-details-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Responder Encuesta -->
+    <div class="modal" id="respuesta-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Responder Encuesta</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <form id="respuesta-form">
+                <div class="modal-body" id="respuesta-form-content">
+                    <!-- Contenido dinámico -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('respuesta-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar Respuesta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Respuestas -->
+    <div class="modal" id="respuestas-modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Respuestas de la Encuesta</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="respuestas-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('respuestas-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/encuestas.js"></script>
+
+    <style>
+        .encuesta-card {
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .encuesta-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .encuesta-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .encuesta-info {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .encuesta-info p {
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pregunta-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+        }
+
+        .pregunta-item .card-header {
+            background: var(--background-color);
+            padding: 0.75rem 1rem;
+        }
+
+        .opciones-container {
+            margin-top: 1rem;
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .respuesta-item {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .respuesta-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .respuesta-detalle {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .pregunta-detail {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .pregunta-detail h6 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</body>
+</html>

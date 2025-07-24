@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Colmenas</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div id="alert-container"></div>
+    
+    <div class="container">
+        <div class="container-form">
+            <form class="sign-in" id="sign-in">
+                <h2>Iniciar Sesión</h2>
+                <div class="social-networks">
+                    <ion-icon name="logo-twitch"></ion-icon>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-instagram"></ion-icon>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+                <span>Use su correo y contraseña</span>
+                <div class="container-input">
+                    <ion-icon name="mail"></ion-icon>
+                    <input type="email" placeholder="Email" id="loginEmail" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="lock"></ion-icon>
+                    <input type="password" placeholder="Password" id="loginPassword" required>
+                </div>
+                <a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a>
+                <button type="submit" class="button">Iniciar Sesión</button>
+            </form>
+        </div>
+        
+        <div class="container-form">
+            <form class="sign-up" id="sign-up">
+                <h2>Registrarse</h2>
+                <div class="social-networks">
+                    <ion-icon name="logo-twitch"></ion-icon>
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-instagram"></ion-icon>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+                <span>Use su correo electrónico para registrarse</span>
+                <div class="container-input">
+                    <ion-icon name="person"></ion-icon>
+                    <input type="text" placeholder="Nombre" id="registerName" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="mail"></ion-icon>
+                    <input type="email" placeholder="Email" id="registerEmail" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="lock"></ion-icon>
+                    <input type="password" placeholder="Password" id="registerPassword" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="calendar-number"></ion-icon>
+                    <input type="number" placeholder="Edad" id="registerEdad" min="1" max="120" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="transgender-outline"></ion-icon>
+                    <select id="registerSexo" required>
+                        <option value="">Sexo</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="home"></ion-icon>
+                    <input type="text" placeholder="Domicilio" id="registerDomicilio" required>
+                </div>
+                <div class="container-input">
+                    <ion-icon name="call"></ion-icon>
+                    <input type="tel" placeholder="Teléfono" id="registerTelefono" required>
+                </div>
+                <button type="submit" class="button">Registrarse</button>
+            </form>
+        </div>
+        
+        <div class="container-welcome">
+            <div class="welcome-sign-up welcome">
+                <h3>¡Bienvenido!</h3>
+                <p>Únete a nuestra plataforma comunitaria y participa en actividades locales</p>
+                <button class="button" id="btn-sign-up">Registrarse</button>
+            </div>
+            <div class="welcome-sign-in welcome">
+                <h3>¡Hola de nuevo!</h3>
+                <p>Inicia sesión para acceder a tu colmena y gestionar actividades comunitarias</p>
+                <button class="button" id="btn-sign-in">Iniciar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</body>
+</html>

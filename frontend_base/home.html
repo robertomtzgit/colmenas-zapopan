@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Colmenas Zapopan</title>
+  <link rel="stylesheet" href="css/home-styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script> <!-- Para íconos -->
+</head>
+<body>
+  <div class="homepage-container">
+    <header class="header">
+      <h1>Colmenas Zapopan</h1>
+      <p>
+        Tu plataforma comunitaria para la gestión y participación en el cuidado de las colmenas y el medio ambiente en Zapopan.
+      </p>
+    </header>
+
+    <section class="features">
+      <div class="feature-card">
+        <i data-lucide="beaker" class="icon yellow"></i>
+        <h3>Cuidado de Colmenas</h3>
+        <p>Monitorea y gestiona la salud de las colmenas en tu comunidad.</p>
+      </div>
+      <div class="feature-card">
+        <i data-lucide="users" class="icon blue"></i>
+        <h3>Comunidad Activa</h3>
+        <p>Participa en actividades, reporta incidentes y colabora con otros miembros.</p>
+      </div>
+      <div class="feature-card">
+        <i data-lucide="leaf" class="icon green"></i>
+        <h3>Impacto Ambiental</h3>
+        <p>Contribuye a la biodiversidad y al equilibrio ecológico de Zapopan.</p>
+      </div>
+    </section>
+
+    <div class="buttons">
+      <a href="login.html" class="btn login">Iniciar Sesión</a>
+      <a href="register.html" class="btn register">Registrarse</a>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; <span id="year"></span> Colmenas Zapopan. Todos los derechos reservados.</p>
+    </footer>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

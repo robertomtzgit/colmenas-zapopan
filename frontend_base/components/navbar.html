@@ -1,0 +1,203 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+        <ion-icon name="menu" id="sidebar-toggle"></ion-icon>
+        Sistema Colmenas
+    </div>
+    <div class="navbar-actions">
+        <div class="notification-bell">
+            <ion-icon name="notifications" id="notifications-btn"></ion-icon>
+            <span class="notification-count" id="notification-count">0</span>
+        </div>
+        <div class="user-info">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <div class="user-details">
+                <span id="user-name">Usuario</span>
+                <span id="user-role" class="user-role">Cargando...</span>
+            </div>
+            <div class="dropdown">
+                <ion-icon name="chevron-down" id="user-dropdown"></ion-icon>
+                <div class="dropdown-menu" id="user-menu">
+                    <a href="#" id="profile-link">
+                        <ion-icon name="person"></ion-icon>
+                        Mi Perfil
+                    </a>
+                    <a href="#" id="settings-link">
+                        <ion-icon name="settings"></ion-icon>
+                        Configuración
+                    </a>
+                    <hr>
+                    <a href="#" id="logout-btn" class="logout-option">
+                        <ion-icon name="log-out"></ion-icon>
+                        Cerrar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Botón de logout directo -->
+        <button class="btn btn-outline-danger btn-sm logout-direct" id="logout-direct-btn">
+            <ion-icon name="log-out"></ion-icon>
+            Salir
+        </button>
+    </div>
+</nav>
+
+<style>
+.navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification-bell {
+    position: relative;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.notification-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-width: 180px;
+    display: none;
+    z-index: 1001;
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.dropdown-menu a:hover {
+    background: var(--background-color);
+}
+
+.dropdown-menu hr {
+    margin: 0.5rem 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+}
+
+#sidebar-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-role {
+    font-size: 0.7rem;
+    color: white;
+    background: var(--primary-color);
+    padding: 0.125rem 0.375rem;
+    border-radius: 8px;
+    margin-top: 0.125rem;
+}
+
+.logout-option {
+    color: var(--danger-color) !important;
+}
+
+.logout-option:hover {
+    background: rgba(220, 53, 69, 0.1) !important;
+}
+
+.logout-direct {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+    background: transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logout-direct:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+#user-dropdown {
+    cursor: pointer;
+    padding: 0.25rem;
+}
+</style>

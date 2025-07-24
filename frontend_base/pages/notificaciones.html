@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - Sistema Colmenas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div id="sidebar-container"></div>
+        
+        <div class="main-content">
+            <div id="navbar-container"></div>
+            
+            <div class="content-wrapper p-4">
+                <div class="page-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestión de Notificaciones</h1>
+                            <p>Administra las notificaciones del sistema</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success" id="mark-all-read-btn">
+                                <ion-icon name="checkmark-done"></ion-icon>
+                                Marcar todas como leídas
+                            </button>
+                            <button class="btn btn-primary" id="new-notificacion-btn">
+                                <ion-icon name="add"></ion-icon>
+                                Nueva Notificación
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label">Buscar</label>
+                                    <input type="text" class="form-control" id="search-notificaciones" placeholder="Buscar notificaciones...">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="form-label">Tipo</label>
+                                    <select class="form-control" id="tipo-filter">
+                                        <option value="">Todos los tipos</option>
+                                        <option value="actividad">Actividad</option>
+                                        <option value="reporte">Reporte</option>
+                                        <option value="encuesta">Encuesta</option>
+                                        <option value="sistema">Sistema</option>
+                                        <option value="recordatorio">Recordatorio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="form-label">Estado</label>
+                                    <select class="form-control" id="estado-filter">
+                                        <option value="">Todas</option>
+                                        <option value="no_leida">No leídas</option>
+                                        <option value="leida">Leídas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button class="btn btn-outline-secondary w-100" onclick="location.reload()">
+                                        <ion-icon name="refresh"></ion-icon>
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de notificaciones -->
+                <div class="row" id="notificaciones-container">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva/Editar Notificación -->
+    <div class="modal" id="notificacion-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="notificacion-modal-title">Nueva Notificación</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <form id="notificacion-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Título</label>
+                        <input type="text" class="form-control" id="notificacion-titulo" name="titulo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="notificacion-mensaje" name="mensaje" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Tipo</label>
+                                <select class="form-control" id="notificacion-tipo" name="tipo" required>
+                                    <option value="">Seleccionar tipo</option>
+                                    <option value="actividad">Actividad</option>
+                                    <option value="reporte">Reporte</option>
+                                    <option value="encuesta">Encuesta</option>
+                                    <option value="sistema">Sistema</option>
+                                    <option value="recordatorio">Recordatorio</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Usuario Destinatario</label>
+                                <select class="form-control usuario-notif-select" id="notificacion-usuario" name="usuarioId" required>
+                                    <option value="">Seleccionar usuario</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Colmena Relacionada (opcional)</label>
+                        <select class="form-control colmena-notif-select" id="notificacion-colmena" name="colmenaId">
+                            <option value="">Sin colmena</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('notificacion-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Notificación -->
+    <div class="modal" id="notificacion-details-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles de la Notificación</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="notificacion-details-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('notificacion-details-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/notificaciones.js"></script>
+
+    <style>
+        .notificacion-card {
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .notificacion-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .notificacion-no-leida {
+            border-left: 4px solid var(--warning-color);
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .notificacion-mensaje {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .notificacion-info {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .notificacion-info p {
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notificacion-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .notificacion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            padding: 0.75rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .badge-primary { background: var(--primary-color); }
+        .badge-warning { background: var(--warning-color); }
+        .badge-info { background: var(--info-color); }
+        .badge-danger { background: var(--danger-color); }
+        .badge-success { background: var(--success-color); }
+        .badge-secondary { background: var(--secondary-color); }
+    </style>
+</body>
+</html>

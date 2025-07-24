@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividades - Sistema Colmenas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div id="sidebar-container"></div>
+        
+        <div class="main-content">
+            <div id="navbar-container"></div>
+            
+            <div class="content-wrapper p-4">
+                <div class="page-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestión de Actividades</h1>
+                            <p>Administra las actividades comunitarias</p>
+                        </div>
+                        <button class="btn btn-primary" id="new-actividad-btn">
+                            <ion-icon name="add"></ion-icon>
+                            Nueva Actividad
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label">Buscar</label>
+                                    <input type="text" class="form-control" id="search-actividades" placeholder="Buscar actividades...">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label">Filtrar por Categoría</label>
+                                    <select class="form-control categoria-select" id="categoria-filter">
+                                        <option value="">Todas las categorías</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label class="form-label">Filtrar por Colmena</label>
+                                    <select class="form-control colmena-select" id="colmena-filter">
+                                        <option value="">Todas las colmenas</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de actividades -->
+                <div class="row" id="actividades-container">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal Actividad -->
+    <div class="modal" id="actividad-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="actividad-modal-title">Nueva Actividad</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <form id="actividad-form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control" id="actividad-titulo" name="titulo" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="form-label">Capacidad Máxima</label>
+                                <input type="number" class="form-control" id="actividad-capacidadMaxima" name="capacidadMaxima" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" id="actividad-descripcion" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Fecha y Hora de Inicio</label>
+                                <input type="datetime-local" class="form-control" id="actividad-fechaInicio" name="fechaInicio" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Fecha y Hora de Fin</label>
+                                <input type="datetime-local" class="form-control" id="actividad-fechaFin" name="fechaFin" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ubicación</label>
+                        <input type="text" class="form-control" id="actividad-ubicacion" name="ubicacion" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Colmena</label>
+                                <select class="form-control colmena-select" id="actividad-colmena" name="colmenaId" required>
+                                    <option value="">Seleccionar colmena</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Categoría</label>
+                                <select class="form-control categoria-select" id="actividad-categoria" name="categoriaId" required>
+                                    <option value="">Seleccionar categoría</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URL de Imagen</label>
+                        <input type="url" class="form-control" id="actividad-imagenUrl" name="imagenUrl">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="actividad-activa" name="activa" checked>
+                            <label class="form-check-label" for="actividad-activa">Actividad Activa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('actividad-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Actividad -->
+    <div class="modal" id="actividad-details-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles de Actividad</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="actividad-details-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('actividad-details-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Inscripciones -->
+    <div class="modal" id="inscripciones-modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h4 class="modal-title">Inscripciones</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="inscripciones-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('inscripciones-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/actividades.js"></script>
+
+    <style>
+        .actividad-card {
+            transition: var(--transition);
+        }
+
+        .actividad-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .actividad-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .actividad-description {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .actividad-details p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .actividad-details ion-icon {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .actividad-details .actividad-image-large img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .actividad-description-full {
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+    </style>
+</body>
+</html>

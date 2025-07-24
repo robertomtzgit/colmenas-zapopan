@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colmenas - Sistema Colmenas</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="main-layout">
+        <div id="sidebar-container"></div>
+        
+        <div class="main-content">
+            <div id="navbar-container"></div>
+            
+            <div class="content-wrapper p-4">
+                <div class="page-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestión de Colmenas</h1>
+                            <p>Administra las colmenas comunitarias</p>
+                        </div>
+                        <button class="btn btn-primary" id="new-colmena-btn">
+                            <ion-icon name="add"></ion-icon>
+                            Nueva Colmena
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Buscar</label>
+                                    <input type="text" class="form-control" id="search-colmenas" placeholder="Buscar por nombre o ubicación...">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Filtrar por Estado</label>
+                                    <select class="form-control" id="status-filter">
+                                        <option value="">Todos los estados</option>
+                                        <option value="Activa">Activa</option>
+                                        <option value="Inactiva">Inactiva</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid de colmenas -->
+                <div class="row" id="colmenas-container">
+                    <!-- Contenido dinámico -->
+                </div>
+            </div>
+
+            <div id="footer-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal Colmena -->
+    <div class="modal" id="colmena-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="colmena-modal-title">Nueva Colmena</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <form id="colmena-form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="colmena-nombre" name="nombre" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="colmena-telefono" name="telefono" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="colmena-direccion" name="direccion" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="form-label">Código Postal</label>
+                                <input type="text" class="form-control" id="colmena-codigoPostal" name="codigoPostal" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Colonia</label>
+                        <input type="text" class="form-control" id="colmena-colonia" name="colonia" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Latitud</label>
+                                <input type="number" step="any" class="form-control" id="colmena-latitud" name="latitud" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Longitud</label>
+                                <input type="number" step="any" class="form-control" id="colmena-longitud" name="longitud" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Responsable</label>
+                                <select class="form-control responsable-select" id="colmena-responsable" name="responsableId">
+                                    <option value="">Sin responsable</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">URL de Imagen</label>
+                                <input type="url" class="form-control" id="colmena-imagenUrl" name="imagenUrl">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="colmena-activa" name="activa" checked>
+                            <label class="form-check-label" for="colmena-activa">Colmena Activa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('colmena-modal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Detalles Colmena -->
+    <div class="modal" id="colmena-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalles de Colmena</h4>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="colmena-details-content">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('colmena-details-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/colmenas.js"></script>
+
+    <style>
+        .colmena-card {
+            transition: var(--transition);
+        }
+
+        .colmena-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .colmena-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .colmena-info p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .colmena-info ion-icon {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .colmena-details .colmena-image-large img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            padding: 0.75rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</body>
+</html>

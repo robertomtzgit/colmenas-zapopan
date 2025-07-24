@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed - Colmenas Comunitarias</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/user-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="user-body">
+    <!-- Header -->
+    <header class="user-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>Colmenas</span>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar actividades, reportes...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icons">
+                    <div class="icon-item">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="icon-item">
+                        <i class="fas fa-envelope"></i>
+                        <span class="notification-badge">1</span>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <img src="/placeholder.svg?height=40&width=40" alt="Usuario" class="user-avatar">
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar Izquierdo -->
+        <aside class="left-sidebar">
+            <div class="user-profile-card">
+                <img src="/placeholder.svg?height=80&width=80" alt="Usuario" class="profile-img">
+                <h3 id="userName">Usuario de Prueba</h3>
+                <p class="user-role">Miembro de la Comunidad</p>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Reportes</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Actividades</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="user-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="actividades.html" class="nav-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>Mis Actividades</span>
+                </a>
+                <a href="reportes.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Mis Reportes</span>
+                </a>
+                <a href="encuestas.html" class="nav-item">
+                    <i class="fas fa-poll"></i>
+                    <span>Encuestas</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Mi Perfil</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="feed-content">
+            <!-- Crear Post -->
+            <div class="create-post">
+                <div class="post-header">
+                    <img src="/placeholder.svg?height=40&width=40" alt="Usuario" class="user-avatar">
+                    <button class="create-post-btn" onclick="openReportModal()">
+                        ¿Qué está pasando en tu colmena?
+                    </button>
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn" onclick="openReportModal()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Reportar Problema
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-lightbulb"></i>
+                        Sugerencia
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-camera"></i>
+                        Foto
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feed de Posts -->
+            <div class="posts-container" id="postsContainer">
+                <!-- Los posts se cargarán dinámicamente -->
+            </div>
+        </main>
+
+        <!-- Sidebar Derecho -->
+        <aside class="right-sidebar">
+            <!-- Mi Colmena -->
+            <div class="widget">
+                <h3>Mi Colmena</h3>
+                <div class="colmena-info">
+                    <div class="colmena-header">
+                        <i class="fas fa-home"></i>
+                        <span>Colmena Centro</span>
+                    </div>
+                    <div class="colmena-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Miembros:</span>
+                            <span class="stat-value">45</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Actividades:</span>
+                            <span class="stat-value">12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximas Actividades -->
+            <div class="widget">
+                <h3>Próximas Actividades</h3>
+                <div class="activities-list">
+                    <div class="activity-item">
+                        <div class="activity-date">
+                            <span class="day">25</span>
+                            <span class="month">ENE</span>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Limpieza Comunitaria</h4>
+                            <p>10:00 AM - Plaza Central</p>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-date">
+                            <span class="day">28</span>
+                            <span class="month">ENE</span>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Taller de Reciclaje</h4>
+                            <p>2:00 PM - Centro Comunitario</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notificaciones Recientes -->
+            <div class="widget">
+                <h3>Notificaciones</h3>
+                <div class="notifications-list">
+                    <div class="notification-item">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <span>Tu reporte fue revisado</span>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fas fa-calendar text-info"></i>
+                        <span>Nueva actividad disponible</span>
+                    </div>
+                    <div class="notification-item">
+                        <i class="fas fa-poll text-warning"></i>
+                        <span>Encuesta pendiente</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal para Crear Reporte -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Reporte</h3>
+                <span class="close" onclick="closeReportModal()">&times;</span>
+            </div>
+            <form id="reportForm" class="modal-body">
+                <div class="form-group">
+                    <label for="reportTitle">Título del Reporte</label>
+                    <input type="text" id="reportTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="reportType">Tipo de Reporte</label>
+                    <select id="reportType" required>
+                        <option value="">Seleccionar tipo</option>
+                        <option value="problema">Problema</option>
+                        <option value="sugerencia">Sugerencia</option>
+                        <option value="mantenimiento">Mantenimiento</option>
+                        <option value="seguridad">Seguridad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportDescription">Descripción</label>
+                    <textarea id="reportDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="reportLocation">Ubicación</label>
+                    <input type="text" id="reportLocation" placeholder="Ej: Calle 123, Parque Central">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeReportModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Enviar Reporte</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/user-feed.js"></script>
+</body>
+</html>

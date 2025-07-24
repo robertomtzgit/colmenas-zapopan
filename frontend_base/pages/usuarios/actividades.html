@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Actividades - Colmenas Comunitarias</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/user-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="user-body">
+    <!-- Header -->
+    <header class="user-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>Colmenas</span>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar actividades...">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-icons">
+                    <div class="icon-item">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <img src="/placeholder.svg?height=40&width=40" alt="Usuario" class="user-avatar">
+                    <div class="dropdown-menu">
+                        <a href="feed.html"><i class="fas fa-home"></i> Inicio</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar Izquierdo -->
+        <aside class="left-sidebar">
+            <nav class="user-nav">
+                <a href="feed.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="actividades.html" class="nav-item active">
+                    <i class="fas fa-calendar"></i>
+                    <span>Mis Actividades</span>
+                </a>
+                <a href="reportes.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Mis Reportes</span>
+                </a>
+                <a href="encuestas.html" class="nav-item">
+                    <i class="fas fa-poll"></i>
+                    <span>Encuestas</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>Mi Perfil</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="feed-content">
+            <!-- Header de página -->
+            <div class="page-header">
+                <h1>Mis Actividades</h1>
+                <p>Gestiona tu participación en actividades comunitarias</p>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card">
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <select id="statusFilter" class="form-control">
+                        <option value="">Todas las actividades</option>
+                        <option value="disponible">Disponibles</option>
+                        <option value="inscrito">Mis inscripciones</option>
+                        <option value="completada">Completadas</option>
+                    </select>
+                    <input type="text" id="searchInput" placeholder="Buscar actividades..." class="form-control">
+                </div>
+            </div>
+
+            <!-- Lista de Actividades -->
+            <div class="content-grid" id="activitiesContainer">
+                <!-- Las actividades se cargarán dinámicamente -->
+            </div>
+        </main>
+
+        <!-- Sidebar Derecho -->
+        <aside class="right-sidebar">
+            <!-- Estadísticas -->
+            <div class="widget">
+                <h3><i class="fas fa-chart-bar"></i> Mis Estadísticas</h3>
+                <div class="colmena-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Actividades completadas:</span>
+                        <span class="stat-value" id="completedActivities">8</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Próximas actividades:</span>
+                        <span class="stat-value" id="upcomingActivities">3</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Puntos obtenidos:</span>
+                        <span class="stat-value" id="totalPoints">125</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximas Actividades -->
+            <div class="widget">
+                <h3><i class="fas fa-clock"></i> Próximas</h3>
+                <div class="activities-list" id="upcomingList">
+                    <!-- Se cargarán dinámicamente -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal para inscribirse a actividad -->
+    <div id="joinModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Inscribirse a Actividad</h3>
+                <span class="close" onclick="closeJoinModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="activityDetails">
+                    <!-- Detalles de la actividad se cargarán aquí -->
+                </div>
+                <div class="form-group">
+                    <label for="joinComment">Comentario (opcional)</label>
+                    <textarea id="joinComment" rows="3" placeholder="¿Por qué te interesa esta actividad?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeJoinModal()">Cancelar</button>
+                <button type="button" class="btn-primary" onclick="confirmJoin()">Inscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/user-activities.js"></script>
+</body>
+</html>
